@@ -22,8 +22,28 @@
     <meta name="apple-mobile-web-app-title" content="SkanPDF" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <title>SkanPDF</title>
-    <script type="module" crossorigin src="/assets/index-BekokkRz.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-BmtsRV-l.css">
+    <!--
+      beforeinstallprompt часто приходит до модуля (повторный визит, service worker уже активен).
+      Ловим здесь, иначе кнопка «Установить» не сможет вызвать системный диалог.
+    -->
+    <script>
+      (function () {
+        var slot = (window.__skanpdfInstall = window.__skanpdfInstall || {
+          event: null,
+          installed: false,
+        });
+        window.addEventListener("beforeinstallprompt", function (event) {
+          event.preventDefault();
+          slot.event = event;
+        });
+        window.addEventListener("appinstalled", function () {
+          slot.installed = true;
+          slot.event = null;
+        });
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-BE9128Wa.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-epqRC2Fu.css">
   <link rel="manifest" href="/manifest.webmanifest"></head>
   <body>
     <div id="root"></div>
